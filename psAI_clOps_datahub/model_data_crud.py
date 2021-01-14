@@ -1,39 +1,38 @@
-from psAI_clOps_datahub.model_data import ModelData
-from psAI_clOps_datahub.base import Session, engine, Base, client
+from psAI_clOps_datahub.base import client
 
 
-def model_data_crud():
+def get_all_models(num_of_models: int = 50):
     try:
-        # session = Session()
-        # model_data = ModelData(
-        #     "vanilla_GAN",
-        #     "GAN to generate images randomly",
-        # )
-        # session.add(model_data)
-        # session.commit()
-        # session.close()
-        pass
+        models = []
+        for i in range(num_of_models):
+            try:
+                data = dict(client.get_experiment(experiment_id=i))
+                models.append(data)
+            except:
+                break
+        return models
     except:
-        pass
+        return "Couldn't fetch the essential data"
 
 
-def get_all_models():
+def get_model_desc(experiment_name: str):
     try:
-        pass
-    except:
-        pass
-
-
-def get_model_desc():
-    try:
-        # data = client.get_experiment_by_name(name="vanilla_gan")
         data = client.search_runs(
-            [client.get_experiment_by_name(name="vanilla_gan").experiment_id]
+            [client.get_experiment_by_name(name=experiment_name).experiment_id]
         )
-        return data
+        all_runs = []
+        for runs in data:
+            meta_data = runs.data
+            info = dict(runs.info)
+            metrics = dict(meta_data.metrics)
+            params = dict(meta_data.params)
+            run_dict = {
+                "metrics": metrics,
+                "params": params,
+                "info": info,
+                "swagger_url": "https://bentoml.smartbox-capture.com/",
+            }
+            all_runs.append(run_dict)
+        return all_runs
     except:
-        pass
-
-
-def delete_model_desc():
-    pass
+        return "Couldn't fetch the essential data"
