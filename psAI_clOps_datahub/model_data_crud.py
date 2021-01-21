@@ -7,6 +7,7 @@ def get_all_models(num_of_models: int = 50):
         for i in range(num_of_models):
             try:
                 data = dict(client.get_experiment(experiment_id=i))
+                data["swagger_url"] = "https://bentoml.smartbox-capture.com/"
                 models.append(data)
             except:
                 break
