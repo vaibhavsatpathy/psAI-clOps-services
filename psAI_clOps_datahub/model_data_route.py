@@ -8,7 +8,7 @@ model_data_router = APIRouter()
 
 
 @model_data_router.get("/get_all_models")
-async def get_all_model_desc_api(no_of_models: int = 50):
+async def get_all_model_desc_api(no_of_models: int = 10):
     models = get_all_models(num_of_models=no_of_models)
     return {"Models": models}
 

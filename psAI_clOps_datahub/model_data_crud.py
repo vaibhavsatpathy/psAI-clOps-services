@@ -1,7 +1,7 @@
 from psAI_clOps_datahub.base import client
 
 
-def get_all_models(num_of_models: int = 50):
+def get_all_models(num_of_models: int = 10):
     try:
         models = []
         for i in range(num_of_models):
@@ -10,7 +10,7 @@ def get_all_models(num_of_models: int = 50):
                 data["swagger_url"] = "https://bentoml.smartbox-capture.com/"
                 models.append(data)
             except:
-                break
+                pass
         return models
     except:
         return "Couldn't fetch the essential data"
